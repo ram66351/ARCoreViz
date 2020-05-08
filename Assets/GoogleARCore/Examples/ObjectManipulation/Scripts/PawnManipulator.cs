@@ -83,7 +83,7 @@ namespace GoogleARCore.Examples.ObjectManipulation
             TrackableHitFlags raycastFilter = TrackableHitFlags.PlaneWithinPolygon;
 
             if (Frame.Raycast(
-                gesture.StartPosition.x, gesture.StartPosition.y, raycastFilter, out hit))
+                gesture.StartPosition.x, gesture.StartPosition.y, raycastFilter, out hit) || Input.GetMouseButtonUp(0))
             {
                 // Use hit pose and camera pose to check if hittest is from the
                 // back of the plane, if it is, no need to create the anchor.

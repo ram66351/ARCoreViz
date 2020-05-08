@@ -32,6 +32,9 @@ namespace GoogleARCore.Examples.ObjectManipulation
         private const float k_RotationRateDegreesDrag = 100.0f;
         private const float k_RotationRateDegreesTwist = 2.5f;
 
+        public delegate void RotationGesture();
+        public static RotationGesture RotationGestureHandler;
+       
         /// <summary>
         /// Returns true if the manipulation can be started for the given Drag gesture.
         /// </summary>
@@ -81,18 +84,15 @@ namespace GoogleARCore.Examples.ObjectManipulation
         protected override void OnContinueManipulation(DragGesture gesture)
         {
             Debug.Log("OnContinueManipulation DragGesture");
-           // if (isTouched)
-            {
-                float sign = -1.0f;
-                Vector3 forward = Camera.main.transform.TransformPoint(Vector3.forward);
-                Quaternion WorldToVerticalOrientedDevice =
-                    Quaternion.Inverse(Quaternion.LookRotation(forward, Vector3.up));
-                Quaternion DeviceToWorld = Camera.main.transform.rotation;
-                Vector3 rotatedDelta = WorldToVerticalOrientedDevice * DeviceToWorld * gesture.Delta;
-
-                float rotationAmount = sign * (rotatedDelta.x / Screen.dpi) * k_RotationRateDegreesDrag;
-                transform.Rotate(0.0f, rotationAmount, 0.0f);
-            }
+            float sign = -1.0f;
+            Vector3 forward = Camera.main.transform.TransformPoint(Vector3.forward);
+            Quaternion WorldToVerticalOrientedDevice =
+                Quaternion.Inverse(Quaternion.LookRotation(forward, Vector3.up));
+            Quaternion DeviceToWorld = Camera.main.transform.rotation;
+            Vector3 rotatedDelta = WorldToVerticalOrientedDevice * DeviceToWorld * gesture.Delta;
+            float rotationAmount = sign * (rotatedDelta.x / Screen.dpi) * k_RotationRateDegreesDrag;
+            transform.Rotate(0.0f, rotationAmount, 0.0f);
+            RotationGestureHandler();
         }
 
         /// <summary>
@@ -102,11 +102,9 @@ namespace GoogleARCore.Examples.ObjectManipulation
         protected override void OnContinueManipulation(TwistGesture gesture)
         {
             Debug.Log("OnContinueManipulation TwistGesture");
-            //if (isTouched)
-            {
-                float rotationAmount = -gesture.DeltaRotation * k_RotationRateDegreesTwist;
-                transform.Rotate(0.0f, rotationAmount, 0.0f);
-            }              
+            float rotationAmount = -gesture.DeltaRotation * k_RotationRateDegreesTwist;
+            transform.Rotate(0.0f, rotationAmount, 0.0f);
+            RotationGestureHandler();
         }
 
         void OnMouseDown()
