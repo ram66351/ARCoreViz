@@ -26,7 +26,7 @@ public class TestNewicParser : MonoBehaviour
     IEnumerator WaitForLoad()
     {
         yield return new WaitForSeconds(5);
-        Debug.Log(covidNode.children.Length);
+        Debug.Log(covidNode.children.Count);
     }
 
     public void PrintNode(List<Branch> SubBranches)

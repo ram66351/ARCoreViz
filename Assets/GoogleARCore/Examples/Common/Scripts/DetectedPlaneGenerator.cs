@@ -23,7 +23,7 @@ namespace GoogleARCore.Examples.Common
     using System.Collections.Generic;
     using GoogleARCore;
     using UnityEngine;
-
+    using GoogleARCore.Examples.ObjectManipulation;
     /// <summary>
     /// Manages the visualization of detected planes in the scene.
     /// </summary>
@@ -58,7 +58,7 @@ namespace GoogleARCore.Examples.Common
         public void Update()
         {
             // Check that motion tracking is tracking.
-            if (Session.Status != SessionStatus.Tracking)
+            if (Session.Status != SessionStatus.Tracking || PawnManipulator.isPlaneChoosen)
             {
                 return;
             }
